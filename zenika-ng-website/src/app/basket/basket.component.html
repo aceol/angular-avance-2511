@@ -1,0 +1,54 @@
+<h2 class="h4">Mon panier</h2>
+
+<div class="card">
+  <div class="card-header">{{ basketItems.length }} {{ basketItems.length === 1 ? 'article' : 'articles' }}</div>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between" *ngFor="let item of basketItems">
+      {{ item.title }} <span class="text-primary">{{ item.price | currency: 'EUR' }}</span>
+    </li>
+
+    <li class="list-group-item d-flex justify-content-between fw-bold" *ngIf="basketItems.length; else basketEmpty">
+      Total <span class="text-primary">{{ basketTotal | currency: 'EUR' }}</span>
+    </li>
+
+    <ng-template #basketEmpty>
+      <li class="list-group-item text-secondary">Votre panier est vide</li>
+    </ng-template>
+  </ul>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header">Paiement</div>
+
+  <form class="card-body" (submit)="checkout($event)">
+    <div class="mb-3">
+      <label class="form-label" for="name">Nom</label>
+
+      <input type="text" class="form-control" id="name" name="name" />
+
+      <div class="invalid-feedback">Champ obligatoire</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="address">Adresse</label>
+
+      <textarea class="form-control" id="address" name="address"></textarea>
+
+      <div class="invalid-feedback">Champ obligatoire</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="creditCard">Numéro de carte de crédit</label>
+
+      <input class="form-control" id="creditCard" name="creditCard" />
+
+      <div class="invalid-feedback">
+        <ng-container>Champ obligatoire</ng-container>
+        <ng-container>Le numéro doit être valide (ex. 123-456)</ng-container>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Valider</button>
+  </form>
+</div>
