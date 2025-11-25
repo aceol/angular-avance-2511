@@ -8,14 +8,15 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
-import { ProductComponent } from './product/product.component';
+import { ProductComponent } from './catalog/product/product.component';
+import { WELCOME_MSG } from './app.token';
 
 @NgModule({
   imports: [BrowserModule, AppRoutingModule],
   providers: [
     provideHttpClient(),
     {
-      provide: 'WELCOME_MSG',
+      provide: WELCOME_MSG,
       useValue: 'Bienvenue sur Zenika Ecommerce',
     },
   ],

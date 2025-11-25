@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { BasketItem } from '../../basket/basket.types';
-import { Product } from '../../product/product.types';
+import { Product } from '../../catalog/product/product.types';
 import { ApiService } from './api.service';
 
 export const MockApiService: Partial<ApiService> = {

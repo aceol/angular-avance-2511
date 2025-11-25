@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../product/product.types';
+import { Product } from '../catalog/product/product.types';
 import { ApiService } from '../shared/services/api.service';
 import { PRODUCT_DETAILS_PARAM_KEY } from './product-details.config';
 
