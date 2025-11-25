@@ -4,17 +4,20 @@
   <div class="card-header">{{ basketItems.length }} {{ basketItems.length === 1 ? 'article' : 'articles' }}</div>
 
   <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex justify-content-between" *ngFor="let item of basketItems">
-      {{ item.title }} <span class="text-primary">{{ item.price | currency: 'EUR' }}</span>
-    </li>
+    @for (item of basketItems; track item.id) {
+      <li class="list-group-item d-flex justify-content-between">
+        {{ item.title }} <span class="text-primary">{{ item.price | currency: 'EUR' }}</span>
+      </li>
+    }
 
-    <li class="list-group-item d-flex justify-content-between fw-bold" *ngIf="basketItems.length; else basketEmpty">
-      Total <span class="text-primary">{{ basketTotal | currency: 'EUR' }}</span>
-    </li>
-
-    <ng-template #basketEmpty>
+    @if (basketItems.length) {
+      <li class="list-group-item d-flex justify-content-between fw-bold">
+        Total <span class="text-primary">{{ basketTotal | currency: 'EUR' }}</span>
+      </li>
+    } @else {
       <li class="list-group-item text-secondary">Votre panier est vide</li>
-    </ng-template>
+    }
+
   </ul>
 </div>
 

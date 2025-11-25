@@ -9,9 +9,13 @@
 <h2 class="h4">Catalogue</h2>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-  <ng-container *ngFor="let product of products">
-    <app-product class="col" *ngIf="isAvailable(product)" [product]="product" (addToBasket)="addToBasket($event)" />
-  </ng-container>
+  @for (product of products; track product.id) {
+    @if (isAvailable(product)) {
+      <app-product class="col" [product]="product" (addToBasket)="addToBasket($event)" />
+    }
+  }
 
-  <div *ngIf="isStockEmpty" class="col text-secondary">Désolé, notre stock est vide !</div>
+  @if (isStockEmpty) {
+    <div class="col text-secondary">Désolé, notre stock est vide !</div>
+  }
 </div>
