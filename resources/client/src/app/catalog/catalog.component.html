@@ -1,0 +1,17 @@
+<header class="p-4 mb-4 bg-light rounded-3">
+  <h1>{{ welcomeMsg }}</h1>
+
+  <p>Votre panier s'élève à {{ basketTotal | currency: 'EUR' }}</p>
+
+  <p class="mb-0"><a class="btn btn-primary btn-large" [routerLink]="['/basket']">Voir mon panier</a></p>
+</header>
+
+<h2 class="h4">Catalogue</h2>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+  <ng-container *ngFor="let product of products">
+    <app-product class="col" *ngIf="isAvailable(product)" [product]="product" (addToBasket)="addToBasket($event)" />
+  </ng-container>
+
+  <div *ngIf="isStockEmpty" class="col text-secondary">Désolé, notre stock est vide !</div>
+</div>
