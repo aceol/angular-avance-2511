@@ -2,23 +2,29 @@
 
 @let basketItems = basketItems$ | async;
 <div class="card">
-  <div class="card-header">{{ basketItems?.length }} {{ basketItems?.length === 1 ? 'article' : 'articles' }}</div>
+  <div class="card-header">
+    {{ basketItems?.length }}
+    {{ basketItems?.length === 1 ? "article" : "articles" }}
+  </div>
 
   <ul class="list-group list-group-flush">
     @for (item of basketItems; track item.id) {
       <li class="list-group-item d-flex justify-content-between">
-        {{ item.title }} <span class="text-primary">{{ item.price | currency: 'EUR' }}</span>
+        {{ item.title }}
+        <span class="text-primary">{{ item.price | currency: "EUR" }}</span>
       </li>
     }
 
     @if (basketItems?.length) {
       <li class="list-group-item d-flex justify-content-between fw-bold">
-        Total <span class="text-primary">{{ basketTotal | async | currency: 'EUR' }}</span>
+        Total
+        <span class="text-primary">{{
+          basketTotal | async | currency: "EUR"
+        }}</span>
       </li>
     } @else {
       <li class="list-group-item text-secondary">Votre panier est vide</li>
     }
-
   </ul>
 </div>
 
@@ -43,7 +49,9 @@
     </div>
 
     <div class="mb-3">
-      <label class="form-label" for="creditCard">Numéro de carte de crédit</label>
+      <label class="form-label" for="creditCard"
+        >Numéro de carte de crédit</label
+      >
 
       <input class="form-control" id="creditCard" name="creditCard" />
 

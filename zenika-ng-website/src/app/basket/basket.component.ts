@@ -8,15 +8,14 @@ import { AlertService } from '../alert/alert.service';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-basket',
-    templateUrl: './basket.component.html',
-    imports: [AsyncPipe, CurrencyPipe],
+  selector: 'app-basket',
+  templateUrl: './basket.component.html',
+  imports: [AsyncPipe, CurrencyPipe],
 })
-export class BasketComponent implements OnDestroy{
-
+export class BasketComponent implements OnDestroy {
   #basketService = inject(BasketService);
   #alertService = inject(AlertService);
-  #router= inject(Router);
+  #router = inject(Router);
 
   protected customer: Customer = { name: '', address: '', creditCard: '' };
 
@@ -28,19 +27,21 @@ export class BasketComponent implements OnDestroy{
     return this.#basketService.total$;
   }
 
-
   private serviceSubscribe;
 
-  constructor(
-  ) {
+  constructor() {
     // TODO add a resolver to fetch data from route
-    this.serviceSubscribe = this.#basketService.fetch()
-    .pipe(
+    this.serviceSubscribe = this.#basketService
+      .fetch()
+      .pipe(
         catchError(() => {
-          this.#alertService.addDanger("😖 Désolé, impossible d'accéder au panier.");
+          this.#alertService.addDanger(
+            "😖 Désolé, impossible d'accéder au panier.",
+          );
           return EMPTY;
         }),
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -53,7 +54,9 @@ export class BasketComponent implements OnDestroy{
 
     this.#basketService.checkout(this.customer).subscribe({
       next: ({ orderNumber }) => {
-        this.#alertService.addSuccess(`🚀 Merci pour votre commande (réf. ${orderNumber}).`);
+        this.#alertService.addSuccess(
+          `🚀 Merci pour votre commande (réf. ${orderNumber}).`,
+        );
         this.#router.navigate(['']);
       },
       error: () => {

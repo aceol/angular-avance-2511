@@ -1,7 +1,14 @@
 <nav class="navbar navbar-dark sticky-top bg-primary" role="navigation">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" [routerLink]="['/']">
-      <img class="me-2" src="assets/logo.webp" height="24" width="24" alt="logo" title="Logo du site" />
+      <img
+        class="me-2"
+        src="assets/logo.webp"
+        height="24"
+        width="24"
+        alt="logo"
+        title="Logo du site"
+      />
 
       Zenika Ecommerce
     </a>
@@ -12,7 +19,9 @@
           Voir mon panier
 
           @if (numberOfBasketItems$ | async; as numberOfBasketItems) {
-            <span class="position-absolute top-0 start-100 translate-middle badge bg-dark">
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge bg-dark"
+            >
               {{ numberOfBasketItems }}
             </span>
           }

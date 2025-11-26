@@ -5,15 +5,10 @@ import { AlertComponent } from './alert/alert.component';
 import { FooterComponent } from './footer/footer.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        MenuComponent,
-        RouterOutlet,
-        AlertComponent,
-        FooterComponent,
-    ],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MenuComponent, RouterOutlet, AlertComponent, FooterComponent],
 })
 export class AppComponent {}

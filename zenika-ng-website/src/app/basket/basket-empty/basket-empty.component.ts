@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-basket-empty',
   imports: [],
   templateUrl: './basket-empty.component.html',
-  styleUrl: './basket-empty.component.scss'
+  styleUrl: './basket-empty.component.scss',
 })
-export class BasketEmptyComponent {
-
-}
+export class BasketEmptyComponent {}

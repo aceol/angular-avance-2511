@@ -7,25 +7,36 @@ import { productDetailsResolveMap } from './product-details/product-details.reso
 export const appRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./catalog/catalog.component').then((c) => c.CatalogComponent),
-    resolve: { _: catalogResolver}
+    loadComponent: () =>
+      import('./catalog/catalog.component').then((c) => c.CatalogComponent),
+    resolve: { _: catalogResolver },
   },
   {
     path: 'basket',
-    loadComponent: () => import('./basket/basket.component').then((c) => c.BasketComponent),
-    canMatch: [basketGuard]
+    loadComponent: () =>
+      import('./basket/basket.component').then((c) => c.BasketComponent),
+    canMatch: [basketGuard],
   },
   {
     path: 'basket',
-    loadComponent: () => import('./basket/basket-empty/basket-empty.component').then((c) => c.BasketEmptyComponent),
+    loadComponent: () =>
+      import('./basket/basket-empty/basket-empty.component').then(
+        (c) => c.BasketEmptyComponent,
+      ),
   },
   {
     path: `products/:${PRODUCT_DETAILS_PARAM_KEY}`,
-    loadComponent: () => import('./product-details/product-details.component').then((c) => c.ProductDetailsComponent),
+    loadComponent: () =>
+      import('./product-details/product-details.component').then(
+        (c) => c.ProductDetailsComponent,
+      ),
     resolve: productDetailsResolveMap,
   },
   {
     path: `**`,
-    loadComponent: () => import('./not-found/not-found.component').then((c) => c.NotFoundComponent),
+    loadComponent: () =>
+      import('./not-found/not-found.component').then(
+        (c) => c.NotFoundComponent,
+      ),
   },
 ];
