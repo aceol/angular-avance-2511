@@ -1,13 +1,14 @@
-import { provideHttpClient } from "@angular/common/http";
-import { importProvidersFrom } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { AppRoutingModule } from "./app-routing.module";
+import { provideHttpClient, withFetch } from "@angular/common/http";
 import { WELCOME_MSG } from "./app.token";
+import { provideRouter } from "@angular/router";
+import { appRoutes } from "./app.route";
+import { provideZoneChangeDetection } from "@angular/core";
 
 export const appConfig = {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule),
-        provideHttpClient(),
+        provideZoneChangeDetection({eventCoalescing: true}),
+        provideRouter(appRoutes),
+        provideHttpClient(withFetch()),
         {
             provide: WELCOME_MSG,
             useValue: 'Bienvenue sur Zenika Ecommerce',
