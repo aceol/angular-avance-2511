@@ -11,8 +11,7 @@ describe('CatalogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CatalogComponent],
-      imports: [RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([]), CatalogComponent],
       providers: [
         {
           provide: ApiService,

@@ -1,17 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { ApiService } from '../shared/services/api.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BasketService } from '../basket/basket.service';
+import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, AsyncPipe],
 })
 export class MenuComponent {
-  private basketService = inject(BasketService);
-  
-  protected get numberOfBasketItems() {
-    return this.basketService.numberOfItems;
-  }
+  #basketService = inject(BasketService);
 
+  protected get numberOfBasketItems$(): Observable<number> {
+    return this.#basketService.numberOfItems$;
+  }
 }

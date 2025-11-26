@@ -10,8 +10,7 @@ describe('BasketComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BasketComponent],
-      imports: [RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([]), BasketComponent],
       providers: [
         {
           provide: ApiService,

@@ -1,36 +1,47 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from '../customer/customer.types';
-import { ApiService } from '../shared/services/api.service';
 import { BasketItem } from './basket.types';
 import { BasketService } from './basket.service';
+import { catchError, EMPTY, Observable } from 'rxjs';
+import { AlertService } from '../alert/alert.service';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
-  standalone: false,
+  imports: [AsyncPipe, CurrencyPipe],
 })
-export class BasketComponent implements OnDestroy{
+export class BasketComponent implements OnDestroy {
+  #basketService = inject(BasketService);
+  #alertService = inject(AlertService);
+  #router = inject(Router);
 
-  private basketService = inject(BasketService);
-  
   protected customer: Customer = { name: '', address: '', creditCard: '' };
 
-  protected get basketItems() {
-    return this.basketService.items;
+  protected get basketItems$(): Observable<BasketItem[]> {
+    return this.#basketService.items$;
   }
 
-  protected get basketTotal(): number {
-    return this.basketService.total;
+  protected get basketTotal(): Observable<number> {
+    return this.#basketService.total$;
   }
-
 
   private serviceSubscribe;
 
-  constructor(
-    private router: Router,
-  ) {
-    this.serviceSubscribe = this.basketService.fetch().subscribe();
+  constructor() {
+    // TODO add a resolver to fetch data from route
+    this.serviceSubscribe = this.#basketService
+      .fetch()
+      .pipe(
+        catchError(() => {
+          this.#alertService.addDanger(
+            "😖 Désolé, impossible d'accéder au panier.",
+          );
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -41,8 +52,16 @@ export class BasketComponent implements OnDestroy{
     event.stopPropagation();
     event.preventDefault();
 
-    this.basketService.checkout(this.customer).subscribe(() => {
-      this.router.navigate(['']);
+    this.#basketService.checkout(this.customer).subscribe({
+      next: ({ orderNumber }) => {
+        this.#alertService.addSuccess(
+          `🚀 Merci pour votre commande (réf. ${orderNumber}).`,
+        );
+        this.#router.navigate(['']);
+      },
+      error: () => {
+        this.#alertService.addDanger("😱 Désolé, une erreur s'est produite.");
+      },
     });
   }
 }

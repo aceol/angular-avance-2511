@@ -8,13 +8,19 @@ describe('ProductComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [ProductComponent],
+      imports: [RouterModule.forRoot([]), ProductComponent],
     });
 
     fixture = TestBed.createComponent(ProductComponent);
     component = fixture.componentInstance;
-    component.product = { id: 'id', title: 'title', description: 'description', photo: 'photo', price: 10, stock: 2 };
+    component.product = {
+      id: 'id',
+      title: 'title',
+      description: 'description',
+      photo: 'photo',
+      price: 10,
+      stock: 2,
+    };
 
     fixture.detectChanges();
   });

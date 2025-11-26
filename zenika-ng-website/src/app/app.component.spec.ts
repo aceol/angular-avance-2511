@@ -9,8 +9,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([]), AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 

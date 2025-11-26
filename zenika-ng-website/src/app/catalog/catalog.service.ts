@@ -1,42 +1,41 @@
 import { inject, Injectable } from '@angular/core';
 import { Product } from './product/product.types';
 import { ApiService } from '../shared/services/api.service';
-import { catchError, EMPTY, Observable, tap } from 'rxjs';
+import { Observable, tap, BehaviorSubject, map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CatalogService {
-
-  products: Product[] = [];
+  #products$ = new BehaviorSubject<Product[]>([]);
+  products$ = this.#products$.asObservable();
 
   private apiService = inject(ApiService);
-  
-  get isStockEmpty(): boolean {
-    return this.products.every(({ stock }) => stock === 0);
+
+  get isStockEmpty$(): Observable<boolean> {
+    return this.#products$.pipe(
+      map((products) => products.every(({ stock }) => stock === 0)),
+    );
   }
 
   fetch(): Observable<Product[]> {
-      return this.apiService.getProducts().pipe(
-          tap((items) => (this.products = items)),
-          catchError(e => {
-              console.error(e); 
-              return EMPTY;
-          })
-      );
-    }
+    return this.apiService
+      .getProducts()
+      .pipe(tap((items) => this.#products$.next(items)));
+  }
 
-  decreaseStock(productId: String): void {
-    this.products = this.products.map((product) => {
-      if(product.id == productId){
-        return {...product, stock: product.stock - 1};
-      }
-      return product;
-    });
+  decreaseStock(productId: string): void {
+    this.#products$.next(
+      this.#products$.value.map((product) => {
+        if (product.id == productId) {
+          return { ...product, stock: product.stock - 1 };
+        }
+        return product;
+      }),
+    );
   }
 
   isAvailable(product: Product): boolean {
     return product.stock !== 0;
   }
-
 }

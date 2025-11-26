@@ -7,11 +7,15 @@
 
   <div class="card-body">
     <h3 class="h6 card-title">
-      <a [routerLink]="['/products', product.id]" class="card-link">{{ product.title | uppercase }}</a>
+      <a [routerLink]="['/products', product.id]" class="card-link">{{
+        product.title | uppercase
+      }}</a>
     </h3>
 
-    <p class="card-text">{{ product.price | currency: 'EUR' }}</p>
+    <p class="card-text">{{ product.price | currency: "EUR" }}</p>
 
-    <button class="btn btn-primary" (click)="onClick()">Ajoutez au panier</button>
+    <button class="btn btn-primary" (click)="onClick()">
+      Ajoutez au panier
+    </button>
   </div>
 </div>

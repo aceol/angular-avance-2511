@@ -10,8 +10,7 @@ describe('ProductDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [ProductDetailsComponent],
+      imports: [RouterModule.forRoot([]), ProductDetailsComponent],
       providers: [
         {
           provide: ApiService,
