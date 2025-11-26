@@ -53,6 +53,13 @@ app.post(`${context}/basket`, (req, res) => {
   const { productId } = req.body;
   const product = products.find(({ id }) => id === productId);
 
+  // Uncomment to make it fail randomly
+  // const random = Math.random();
+  // if (Math.floor(random * 10) % 2 === 0) {
+  //   res.status(404).send();
+  //   return;
+  // }
+
   if (!product || product.stock === 0) {
     res.status(400).send({ error: true });
     return;

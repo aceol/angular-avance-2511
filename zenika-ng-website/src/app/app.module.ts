@@ -10,6 +10,7 @@ import { MenuComponent } from './menu/menu.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductComponent } from './catalog/product/product.component';
 import { WELCOME_MSG } from './app.token';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   imports: [BrowserModule, AppRoutingModule],
@@ -21,6 +22,7 @@ import { WELCOME_MSG } from './app.token';
     },
   ],
   declarations: [
+    AlertComponent,
     AppComponent,
     BasketComponent,
     CatalogComponent,

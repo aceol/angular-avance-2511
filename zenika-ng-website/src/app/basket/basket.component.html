@@ -1,7 +1,8 @@
 <h2 class="h4">Mon panier</h2>
 
+@let basketItems = basketItems$ | async;
 <div class="card">
-  <div class="card-header">{{ basketItems.length }} {{ basketItems.length === 1 ? 'article' : 'articles' }}</div>
+  <div class="card-header">{{ basketItems?.length }} {{ basketItems?.length === 1 ? 'article' : 'articles' }}</div>
 
   <ul class="list-group list-group-flush">
     @for (item of basketItems; track item.id) {
@@ -10,9 +11,9 @@
       </li>
     }
 
-    @if (basketItems.length) {
+    @if (basketItems?.length) {
       <li class="list-group-item d-flex justify-content-between fw-bold">
-        Total <span class="text-primary">{{ basketTotal | currency: 'EUR' }}</span>
+        Total <span class="text-primary">{{ basketTotal | async | currency: 'EUR' }}</span>
       </li>
     } @else {
       <li class="list-group-item text-secondary">Votre panier est vide</li>
