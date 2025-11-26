@@ -6,6 +6,7 @@ import { ApiService } from '../shared/services/api.service';
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class FooterComponent {
   protected fullYear = new Date().getUTCFullYear();

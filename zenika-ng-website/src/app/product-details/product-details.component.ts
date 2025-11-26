@@ -10,6 +10,7 @@ import { CurrencyPipe } from '@angular/common';
     templateUrl: './product-details.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CurrencyPipe],
+    standalone: true,
 })
 export class ProductDetailsComponent {
   protected product?: Product;

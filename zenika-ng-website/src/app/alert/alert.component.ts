@@ -7,6 +7,7 @@ import { NgFor, AsyncPipe } from '@angular/common';
     templateUrl: './alert.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgFor, AsyncPipe],
+    standalone: true,
 })
 export class AlertComponent {
   protected alerts$ = inject(AlertService).alerts$;

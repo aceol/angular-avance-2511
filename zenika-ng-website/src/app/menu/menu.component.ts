@@ -10,6 +10,7 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './menu.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, AsyncPipe],
+    standalone: true,
 })
 export class MenuComponent {
   private basketService = inject(BasketService);
