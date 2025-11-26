@@ -5,12 +5,20 @@ import { BasketService } from '../basket/basket.service';
 import { WELCOME_MSG } from '../app.token';
 import { catchError, EMPTY, Observable, zip } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
+import { RouterLink } from '@angular/router';
+import { ProductComponent } from './product/product.component';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-catalog',
-  templateUrl: './catalog.component.html',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-catalog',
+    templateUrl: './catalog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        RouterLink,
+        ProductComponent,
+        AsyncPipe,
+        CurrencyPipe,
+    ],
 })
 export class CatalogComponent implements OnInit{
   #catalogService = inject(CatalogService);

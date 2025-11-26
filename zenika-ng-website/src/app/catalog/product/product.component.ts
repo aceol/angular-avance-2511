@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from './product.types';
+import { RouterLink } from '@angular/router';
+import { UpperCasePipe, CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-product',
+    templateUrl: './product.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        RouterLink,
+        UpperCasePipe,
+        CurrencyPipe,
+    ],
 })
 export class ProductComponent {
   @Input({ required: true }) product!: Product;

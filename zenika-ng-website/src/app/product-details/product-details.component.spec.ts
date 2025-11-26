@@ -10,15 +10,14 @@ describe('ProductDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [ProductDetailsComponent],
-      providers: [
+    imports: [RouterModule.forRoot([]), ProductDetailsComponent],
+    providers: [
         {
-          provide: ApiService,
-          useValue: MockApiService,
+            provide: ApiService,
+            useValue: MockApiService,
         },
-      ],
-    });
+    ],
+});
     fixture = TestBed.createComponent(ProductDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -6,11 +6,12 @@ import { BasketItem } from './basket.types';
 import { BasketService } from './basket.service';
 import { catchError, EMPTY, Observable } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-basket',
-  templateUrl: './basket.component.html',
-  standalone: false,
+    selector: 'app-basket',
+    templateUrl: './basket.component.html',
+    imports: [AsyncPipe, CurrencyPipe],
 })
 export class BasketComponent implements OnDestroy{
 
