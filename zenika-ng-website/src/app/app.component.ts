@@ -9,7 +9,6 @@ import { FooterComponent } from './footer/footer.component';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         MenuComponent,
         RouterOutlet,

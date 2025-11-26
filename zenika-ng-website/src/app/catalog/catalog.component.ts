@@ -3,7 +3,7 @@ import { Product } from './product/product.types';
 import { CatalogService } from './catalog.service';
 import { BasketService } from '../basket/basket.service';
 import { WELCOME_MSG } from '../app.token';
-import { catchError, EMPTY, Observable, zip } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
 import { RouterLink } from '@angular/router';
 import { ProductComponent } from './product/product.component';
@@ -19,8 +19,9 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
         AsyncPipe,
         CurrencyPipe,
     ],
+    standalone: true,
 })
-export class CatalogComponent implements OnInit{
+export class CatalogComponent{
   #catalogService = inject(CatalogService);
   #basketService = inject(BasketService);
   #alertService = inject(AlertService);
@@ -36,19 +37,6 @@ export class CatalogComponent implements OnInit{
 
   protected get products$(): Observable<Product[]> {
     return this.#catalogService.products$;
-  }
-
-  ngOnInit(): void {
-    zip(
-      [
-      this.#catalogService.fetch(),
-      this.#basketService.fetch()
-    ]).pipe(
-        catchError(() => {
-          this.#alertService.addDanger("😲 Désolé, impossible d'accéder au catalogue.");
-          return EMPTY;
-        }),
-    ).subscribe();
   }
 
   protected addToBasket(product: Product): void {

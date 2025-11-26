@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from '../customer/customer.types';
-import { ApiService } from '../shared/services/api.service';
 import { BasketItem } from './basket.types';
 import { BasketService } from './basket.service';
 import { catchError, EMPTY, Observable } from 'rxjs';
@@ -34,6 +33,7 @@ export class BasketComponent implements OnDestroy{
 
   constructor(
   ) {
+    // TODO add a resolver to fetch data from route
     this.serviceSubscribe = this.#basketService.fetch()
     .pipe(
         catchError(() => {

@@ -12,6 +12,7 @@ import { UpperCasePipe, CurrencyPipe } from '@angular/common';
         UpperCasePipe,
         CurrencyPipe,
     ],
+    standalone: true,
 })
 export class ProductComponent {
   @Input({ required: true }) product!: Product;
