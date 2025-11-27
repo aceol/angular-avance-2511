@@ -1,10 +1,10 @@
 <header class="p-4 mb-4 bg-light rounded-3">
-  <h1>{{ welcomeMsg }}</h1>
+  <h1 data-test="welcome">{{ welcomeMsg }}</h1>
 
-  <p i18n="@@Basket.Amount">Votre panier s'élève à {{ basketTotal$ | async | currency: 'EUR' }}</p>
+  <p data-test="total" i18n="@@Basket.Amount">Votre panier s'élève à {{ basketTotal$ | async | currency: 'EUR' }}</p>
 
   <p class="mb-0">
-    <a class="btn btn-primary btn-large" [routerLink]="['/basket']" i18n="@@Action.GotoBasket"
+    <a data-test="goToBasket" class="btn btn-primary btn-large" [routerLink]="['/basket']" i18n="@@Action.GotoBasket"
       >Voir mon panier</a
     >
   </p>
@@ -15,6 +15,7 @@
   @for (product of products$ | async; track product.id) {
     @if (isAvailable(product)) {
       <app-product
+        data-test="product"
         class="col"
         [product]="product"
         (addToBasket)="addToBasket($event)"
