@@ -1,0 +1,46 @@
+  <form class="card-body" [formGroup]="formGroup" (submit)="checkout($event)">
+    <div class="mb-3">
+      <label class="form-label" for="name">Nom</label>
+
+      <input type="text" class="form-control" id="name" name="name" 
+      [formControl]="formGroup.controls.name"
+      [class.is-invalid]="formGroup.controls.name.touched && formGroup.controls.name.invalid"
+      [class.is-valid]="formGroup.controls.name.valid"
+      />
+
+      <div class="invalid-feedback">Champ obligatoire</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="address">Adresse</label>
+
+      <textarea class="form-control" id="address" name="address" [formControl]="formGroup.controls.address"
+      [class.is-invalid]="formGroup.controls.address.touched && formGroup.controls.address.invalid"
+      [class.is-valid]="formGroup.controls.address.valid"
+      ></textarea>
+
+      <div class="invalid-feedback">Champ obligatoire</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="creditCard"
+        >Numéro de carte de crédit</label
+      >
+
+      <input class="form-control" id="creditCard" name="creditCard"  [formControl]="formGroup.controls.creditCard"
+       [class.is-invalid]="formGroup.controls.creditCard.touched && formGroup.controls.creditCard.invalid"
+       [class.is-valid]="formGroup.controls.creditCard.valid"
+      />
+
+      <div class="invalid-feedback">
+        @if(formGroup.controls.creditCard.errors?.['required']){
+        <ng-container>Champ obligatoire</ng-container>
+        }
+        @if(formGroup.controls.creditCard.errors?.['pattern']){
+        <ng-container>Le numéro doit être valide (ex. 123-456)</ng-container>
+        }
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="formGroup.invalid || formGroup.disabled" class="btn btn-success">Valider</button>
+  </form>

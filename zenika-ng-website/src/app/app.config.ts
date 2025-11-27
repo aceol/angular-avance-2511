@@ -2,7 +2,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { WELCOME_MSG } from './app.token';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { appRoutes } from './app.route';
-import { provideZoneChangeDetection } from '@angular/core';
+import { provideZoneChangeDetection } from '@angular/core'
+
 
 export const appConfig = {
   providers: [
