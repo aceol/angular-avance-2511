@@ -3,15 +3,20 @@ import { WELCOME_MSG } from './app.token';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { appRoutes } from './app.route';
 import { provideZoneChangeDetection } from '@angular/core';
+import {
+    provideClientHydration,
+    withEventReplay,
+} from '@angular/platform-browser';
 
 export const appConfig = {
-  providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes, withComponentInputBinding()),
-    provideHttpClient(withFetch()),
-    {
-      provide: WELCOME_MSG,
-      useValue: 'Bienvenue sur Zenika Ecommerce',
-    },
-  ],
+    providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideRouter(appRoutes, withComponentInputBinding()),
+        provideHttpClient(withFetch()),
+        {
+            provide: WELCOME_MSG,
+            useValue: 'Bienvenue sur Zenika Ecommerce',
+        },
+        provideClientHydration(withEventReplay()),
+    ],
 };
