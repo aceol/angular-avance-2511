@@ -8,9 +8,8 @@ describe('BasketFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BasketFormComponent]
-    })
-    .compileComponents();
+      imports: [BasketFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BasketFormComponent);
     component = fixture.componentInstance;

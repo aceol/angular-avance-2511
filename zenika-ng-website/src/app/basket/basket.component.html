@@ -4,14 +4,14 @@
 <div class="card">
   <div class="card-header">
     {{ basketItems?.length }}
-    {{ basketItems?.length === 1 ? "article" : "articles" }}
+    {{ basketItems?.length === 1 ? 'article' : 'articles' }}
   </div>
 
   <ul class="list-group list-group-flush">
     @for (item of basketItems; track item.id) {
       <li class="list-group-item d-flex justify-content-between">
         {{ item.title }}
-        <span class="text-primary">{{ item.price | currency: "EUR" }}</span>
+        <span class="text-primary">{{ item.price | currency: 'EUR' }}</span>
       </li>
     }
 
@@ -19,7 +19,7 @@
       <li class="list-group-item d-flex justify-content-between fw-bold">
         Total
         <span class="text-primary">{{
-          basketTotal | async | currency: "EUR"
+          basketTotal | async | currency: 'EUR'
         }}</span>
       </li>
     } @else {

@@ -9,7 +9,7 @@ import { Customer } from '../../customer/customer.types';
   selector: 'app-basket-form',
   imports: [ReactiveFormsModule],
   templateUrl: './basket-form.component.html',
-  styleUrl: './basket-form.component.scss'
+  styleUrl: './basket-form.component.scss',
 })
 export class BasketFormComponent {
   #formBuilder = inject(FormBuilder);
@@ -20,9 +20,11 @@ export class BasketFormComponent {
   protected formGroup = this.#formBuilder.group({
     name: this.#formBuilder.nonNullable.control('', [Validators.required]),
     address: this.#formBuilder.nonNullable.control('', [Validators.required]),
-    creditCard: this.#formBuilder.nonNullable.control('', [Validators.required, Validators.pattern(/^\d{3}-\d{3}$/)]),
+    creditCard: this.#formBuilder.nonNullable.control('', [
+      Validators.required,
+      Validators.pattern(/^\d{3}-\d{3}$/),
+    ]),
   });
-
 
   protected checkout(event: Event): void {
     event.stopPropagation();
@@ -43,6 +45,4 @@ export class BasketFormComponent {
       },
     });
   }
-
-
 }
