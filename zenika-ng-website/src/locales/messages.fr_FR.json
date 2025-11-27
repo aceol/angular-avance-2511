@@ -1,0 +1,9 @@
+{
+    "locale": "fr_FR",
+    "translations": {
+        "Basket.Amount": "Votre panier s'élève à environ {$INTERPOLATION}",
+        "Action.GotoBasket": "Voir mon panier",
+        "Catalog.Title": "Catalogue XXX",
+        "Catalog.Empty": "Désolé, notre stock est vide !"
+    }
+}
