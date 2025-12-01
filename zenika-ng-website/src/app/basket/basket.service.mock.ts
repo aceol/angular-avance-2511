@@ -11,19 +11,11 @@ export const MockBasketService: Partial<BasketService> = {
 
     numberOfItems$: of(0).pipe(delay(0)),
 
-    fetch: jasmine
-        .createSpy('fetch')
-        .and.returnValue(of([] as BasketItem[]).pipe(delay(0))),
+    fetch: jest.fn(() => of([] as BasketItem[]).pipe(delay(0))),
 
-    addItem: jasmine
-        .createSpy('addItem')
-        .and.returnValue(
-            of({ id: 'id', title: 'title', price: 10 } as BasketItem).pipe(
-                delay(0)
-            )
-        ),
+    addItem: jest.fn(() =>
+        of({ id: 'id', title: 'title', price: 10 } as BasketItem).pipe(delay(0))
+    ),
 
-    checkout: jasmine
-        .createSpy('checkout')
-        .and.returnValue(of({ orderNumber: 1 }).pipe(delay(0))),
+    checkout: jest.fn(() => of({ orderNumber: 1 }).pipe(delay(0))),
 };

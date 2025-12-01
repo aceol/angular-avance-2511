@@ -1,3 +1,4 @@
+import expect from 'expect';
 import { Component } from '@angular/core';
 import {
     ComponentFixture,
@@ -125,7 +126,7 @@ describe('CatalogComponent', () => {
             (fixture.nativeElement as HTMLElement).querySelectorAll(
                 '[data-test="product"]'
             )
-        ).toHaveSize(1);
+        ).toHaveLength(1);
 
         const productComponent: ProductComponent = fixture.debugElement.query(
             By.directive(ProductComponent)

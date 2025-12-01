@@ -1,3 +1,4 @@
+import expect from 'expect';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
     ComponentFixture,

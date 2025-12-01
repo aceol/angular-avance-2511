@@ -1,3 +1,4 @@
+import expect from 'expect';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { ProductComponent } from './product.component';
@@ -93,7 +94,7 @@ describe('ProductComponent', () => {
 
     it('should emit product when clicking on the button', () => {
         // Given
-        const addToBasketEmit = spyOn(component.addToBasket, 'emit');
+        const addToBasketEmit = jest.spyOn(component.addToBasket, 'emit');
         expect(addToBasketEmit).not.toHaveBeenCalled();
         fixture.detectChanges();
 

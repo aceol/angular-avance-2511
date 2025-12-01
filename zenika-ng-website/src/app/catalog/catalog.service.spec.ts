@@ -1,3 +1,4 @@
+import expect from 'expect';
 import { TestBed } from '@angular/core/testing';
 
 import { CatalogService } from './catalog.service';
@@ -29,14 +30,14 @@ describe('CatalogService', () => {
     it('should store the products after fetching them', async () => {
         // Given
         let products = await firstValueFrom(service.products$);
-        expect(products).toHaveSize(0);
+        expect(products).toHaveLength(0);
 
         // When
         await firstValueFrom(service.fetch());
 
         // Then
         products = await firstValueFrom(service.products$);
-        expect(products).toHaveSize(1);
+        expect(products).toHaveLength(1);
         expect(products).toEqual([
             {
                 id: 'id',
@@ -73,18 +74,18 @@ describe('CatalogService', () => {
     it('should know that stock is empty', async () => {
         // Given
         await firstValueFrom(service.fetch());
-        expect(await firstValueFrom(service.isStockEmpty$)).toBeFalse();
+        expect(await firstValueFrom(service.isStockEmpty$)).toBe(false);
 
         // When
         service.decreaseStock('id');
         service.decreaseStock('id');
 
         // Then
-        expect(await firstValueFrom(service.isStockEmpty$)).toBeTrue();
+        expect(await firstValueFrom(service.isStockEmpty$)).toBe(true);
     });
 
     it('should return product availability', async () => {
-        expect(service.isAvailable({ stock: 1 } as Product)).toBeTrue();
-        expect(service.isAvailable({ stock: 0 } as Product)).toBeFalse();
+        expect(service.isAvailable({ stock: 1 } as Product)).toBe(true);
+        expect(service.isAvailable({ stock: 0 } as Product)).toBe(false);
     });
 });
