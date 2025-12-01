@@ -1,50 +1,23 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { Customer } from '../customer/customer.types';
-import { BasketItem } from './basket.types';
-import { BasketService } from './basket.service';
-import { catchError, EMPTY, Observable } from 'rxjs';
-import { AlertService } from '../alert/alert.service';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { BasketFormComponent } from './basket-form/basket-form.component';
+import { selectBasket } from '../shared/store';
+import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-basket',
-  templateUrl: './basket.component.html',
-  imports: [AsyncPipe, CurrencyPipe, BasketFormComponent],
+    selector: 'app-basket',
+    templateUrl: './basket.component.html',
+    imports: [AsyncPipe, CurrencyPipe, BasketFormComponent],
 })
-export class BasketComponent implements OnDestroy {
-  #basketService = inject(BasketService);
-  #alertService = inject(AlertService);
+export class BasketComponent {
+    #store = inject(Store);
 
-  protected customer: Customer = { name: '', address: '', creditCard: '' };
+    protected customer: Customer = { name: '', address: '', creditCard: '' };
 
-  protected get basketItems$(): Observable<BasketItem[]> {
-    return this.#basketService.items$;
-  }
+    protected basket$ = this.#store.select(selectBasket.items);
 
-  protected get basketTotal(): Observable<number> {
-    return this.#basketService.total$;
-  }
+    protected basketItems$ = this.#store.select(selectBasket.numberOfItems);
 
-  private serviceSubscribe;
-
-  constructor() {
-    // TODO add a resolver to fetch data from route
-    this.serviceSubscribe = this.#basketService
-      .fetch()
-      .pipe(
-        catchError(() => {
-          this.#alertService.addDanger(
-            "😖 Désolé, impossible d'accéder au panier.",
-          );
-          return EMPTY;
-        }),
-      )
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.serviceSubscribe.unsubscribe();
-  }
+    protected basketTotal = this.#store.select(selectBasket.total);
 }
