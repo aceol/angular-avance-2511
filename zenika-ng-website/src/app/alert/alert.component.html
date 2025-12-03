@@ -1,5 +1,5 @@
 @for (alert of alerts$ | async; track alert.content) {
-  <div class="alert alert-{{ alert.type }}" role="alert">
+  <div class="alert alert-{{ alert.type }}" role="alert" data-test>
     {{ alert.content }}
   </div>
 }

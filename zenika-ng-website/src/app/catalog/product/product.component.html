@@ -1,20 +1,20 @@
-<div class="card h-100 text-center" [class.text-bg-warning]="isTheLast()">
-  <img class="card-img-top" [src]="product.photo" alt="Product image" />
+<div class="card h-100 text-center" [class.text-bg-warning]="isTheLast()" data-test="container">
+  <img class="card-img-top" [src]="product.photo" alt="Product image"  data-test="photo"/>
 
   <div class="card-header">
-    <small>{{ product.description }}</small>
+    <small data-test="description">{{ product.description }}</small>
   </div>
 
   <div class="card-body">
     <h3 class="h6 card-title">
-      <a [routerLink]="['/products', product.id]" class="card-link">{{
+      <a [routerLink]="['/products', product.id]" class="card-link" data-test="title">{{
         product.title | uppercase
       }}</a>
     </h3>
 
-    <p class="card-text">{{ product.price | currency: 'EUR' }}</p>
+    <p class="card-text" data-test="price">{{ product.price | currency: 'EUR' }}</p>
 
-    <button class="btn btn-primary" (click)="onClick()">
+    <button class="btn btn-primary" (click)="onClick()" data-test="addToBasket">
       Ajoutez au panier
     </button>
   </div>

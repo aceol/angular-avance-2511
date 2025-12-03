@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
     ComponentFixture,
     fakeAsync,
@@ -7,20 +7,19 @@ import {
     waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { BasketService } from '../basket/basket.service';
 import { MockBasketService } from '../basket/basket.service.mock';
 import { CatalogComponent } from './catalog.component';
 import { CatalogService } from './catalog.service';
 import { MockCatalogService } from './catalog.service.mock';
 import { ProductComponent } from './product/product.component';
-import { MockProductComponent } from './product/product.component.mock';
 import { WELCOME_MSG } from '../app.token';
 
 @Component({ selector: 'app-basket', standalone: true, template: '' })
 export class BasketComponent {}
 
-describe('CatalogComponent', () => {
+describe('CatalogComponent (alt)', () => {
     let component: CatalogComponent;
     let fixture: ComponentFixture<CatalogComponent>;
 
@@ -44,21 +43,21 @@ describe('CatalogComponent', () => {
                 },
             ],
         }).overrideComponent(CatalogComponent, {
-            // -------------------------------------------------------------------------------------------------
-            // In this test suite, we are replacing the original `ProductComponent` with `MockProductComponent`.
-            // However, note that even the mock is a real Angular component.
+            // -----------------------------------------------------------------------------------------------------
+            // In this test suite, we remove the original `ProductComponent` without providing a mock replacement.
+            // We simply use "CUSTOM_ELEMENTS_SCHEMA" to allow unknown HTML tags in the `CatalogComponent` template.
             //
-            // Thus, it will be easy to test:
+            // But we'll still be able to test:
             //  - the `[product]` property binding
             //  - the `(addToBasket)` event binding
             //
             // on the following part of the `CatalogComponent` template:
             //   `<app-product [product]="product" (addToBasket)="addToBasket($event)" />`
             //
-            // See an alternative solution here: `catalog.component-alt.spec`
+            // See another solution here: `catalog.component.spec`
             remove: { imports: [ProductComponent] },
-            add: { imports: [MockProductComponent] },
-            // -------------------------------------------------------------------------------------------------
+            add: { schemas: [CUSTOM_ELEMENTS_SCHEMA] },
+            // -----------------------------------------------------------------------------------------------------
         });
 
         fixture = TestBed.createComponent(CatalogComponent);
@@ -70,49 +69,7 @@ describe('CatalogComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should display welcome message', () => {
-        // When
-        fixture.detectChanges();
-
-        // Then
-        expect(
-            (fixture.nativeElement as HTMLElement).querySelector(
-                '[data-test="welcome"]'
-            )?.textContent
-        ).toContain('Welcome to unit testing');
-    });
-
-    it('should display total price with currency', waitForAsync(async () => {
-        // When
-        fixture.detectChanges();
-
-        await fixture.whenStable();
-        fixture.detectChanges();
-
-        // Then
-        expect(
-            (fixture.nativeElement as HTMLElement).querySelector(
-                '[data-test="total"]'
-            )?.textContent
-        ).toContain('€0.00');
-    }));
-
-    it('should navigate to the basket view when clicking on "Go to basket" button', waitForAsync(async () => {
-        // Given
-        const router = TestBed.inject(Router);
-        fixture.detectChanges();
-
-        // When
-        (fixture.nativeElement as HTMLElement)
-            .querySelector<HTMLAnchorElement>('[data-test="goToBasket"]')
-            ?.click();
-        await fixture.whenStable();
-
-        // Then
-        expect(router.url).toBe('/basket');
-    }));
-
-    it('should display the products', waitForAsync(async () => {
+    it('should display the products (using "DebugElement.properties[]" for property binding)', waitForAsync(async () => {
         // Given
         fixture.detectChanges();
 
@@ -121,15 +78,11 @@ describe('CatalogComponent', () => {
         fixture.detectChanges();
 
         // Then
-        expect(
-            (fixture.nativeElement as HTMLElement).querySelectorAll(
-                '[data-test="product"]'
-            )
-        ).toHaveSize(1);
+        const productDebugElement = fixture.debugElement.query(
+            By.css('[data-test="product"]')
+        );
 
-        const productComponent: ProductComponent = fixture.debugElement.query(
-            By.directive(ProductComponent)
-        ).componentInstance;
+        expect(productDebugElement).toBeInstanceOf(DebugElement);
 
         const product = {
             id: 'id',
@@ -139,10 +92,10 @@ describe('CatalogComponent', () => {
             price: 10,
             stock: 2,
         };
-        expect(productComponent.product).toEqual(product);
+        expect(productDebugElement.properties['product']).toEqual(product);
     }));
 
-    it('should add product to basket when product is clicked', fakeAsync(() => {
+    it('should add product to basket when product is clicked (using "DebugElement.triggerEventHandler()" for event binding)', fakeAsync(() => {
         // Given
         const basketService = TestBed.inject(BasketService);
         const catalogService = TestBed.inject(CatalogService);
@@ -152,10 +105,18 @@ describe('CatalogComponent', () => {
         fixture.detectChanges();
 
         // When
-        const productComponent: ProductComponent = fixture.debugElement.query(
-            By.directive(ProductComponent)
-        ).componentInstance;
-        productComponent.addToBasket.emit(productComponent.product);
+        const productDebugElement = fixture.debugElement.query(
+            By.css('[data-test="product"]')
+        );
+        const product = {
+            id: 'id',
+            title: 'title',
+            description: 'description',
+            photo: 'photo',
+            price: 10,
+            stock: 2,
+        };
+        productDebugElement.triggerEventHandler('addToBasket', product);
 
         tick();
 
