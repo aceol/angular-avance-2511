@@ -1,0 +1,9 @@
+{
+    "locale": "en_US",
+    "translations": {
+        "Basket.Amount": "Your cart worth {$INTERPOLATION}",
+        "Action.GotoBasket": "See my basket",
+        "Catalog.Title": "Catalog",
+        "Catalog.Empty": "Sorry it's empty !"
+    }
+}
