@@ -1,55 +1,49 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product } from './product/product.types';
-import { CatalogService } from './catalog.service';
-import { BasketService } from '../basket/basket.service';
 import { WELCOME_MSG } from '../app.token';
-import { Observable } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
 import { RouterLink } from '@angular/router';
 import { ProductComponent } from './product/product.component';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { basketActions, selectBasket, selectCatalog } from '../shared/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-catalog',
-  templateUrl: './catalog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ProductComponent, AsyncPipe, CurrencyPipe],
-  standalone: true,
+    selector: 'app-catalog',
+    templateUrl: './catalog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, ProductComponent, AsyncPipe, CurrencyPipe],
+    standalone: true,
 })
 export class CatalogComponent {
-  #catalogService = inject(CatalogService);
-  #basketService = inject(BasketService);
-  #alertService = inject(AlertService);
-  protected welcomeMsg = inject(WELCOME_MSG);
+    #alertService = inject(AlertService);
+    protected welcomeMsg = inject(WELCOME_MSG);
+    #store = inject(Store);
+    #actions$ = inject(Actions);
 
-  protected get isStockEmpty$(): Observable<boolean> {
-    return this.#catalogService.isStockEmpty$;
-  }
+    protected basketTotal$ = this.#store.select(selectBasket.total);
 
-  protected get basketTotal$(): Observable<number> {
-    return this.#basketService.total$;
-  }
+    protected products$ = this.#store.select(selectCatalog.products);
 
-  protected get products$(): Observable<Product[]> {
-    return this.#catalogService.products$;
-  }
+    protected isStockEmpty$ = this.#store.select(selectCatalog.isStockEmpty);
 
-  protected addToBasket(product: Product): void {
-    this.#basketService.addItem(product.id).subscribe({
-      next: () => {
-        this.#alertService.addSuccess('✅ Produit ajouté au catalogue');
-        this.#catalogService.decreaseStock(product.id);
-      },
-      error: () =>
-        this.#alertService.addDanger("😱 Désolé, une erreur s'est produite."),
-    });
-  }
+    constructor() {
+        this.#actions$
+            .pipe(ofType(basketActions.addItemFailure), takeUntilDestroyed())
+            .subscribe(() =>
+                this.#alertService.addDanger(
+                    "😱 Désolé, impossible d'ajouter au panier."
+                )
+            );
+    }
 
-  private decreaseStock(product: Product): void {
-    this.#catalogService.decreaseStock(product.id);
-  }
+    protected isAvailable(product: Product) {
+        return product.stock > 0;
+    }
 
-  protected isAvailable(product: Product): boolean {
-    return this.#catalogService.isAvailable(product);
-  }
+    protected addToBasket(product: Product): void {
+        this.#store.dispatch(basketActions.addItem({ productId: product.id }));
+    }
 }
