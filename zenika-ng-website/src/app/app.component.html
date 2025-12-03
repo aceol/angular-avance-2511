@@ -1,6 +1,6 @@
 <app-menu />
 
-<main class="py-4 container flex-grow-1">
+<main class="py-4 container flex-grow-1" [@routeAnimation]="increment$ | async">
   <router-outlet />
   <app-alert></app-alert>
 </main>
