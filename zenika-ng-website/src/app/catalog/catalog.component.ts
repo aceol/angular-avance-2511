@@ -9,41 +9,43 @@ import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { basketActions, selectBasket, selectCatalog } from '../shared/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catalogAnimations } from './catalog.animation';
 
 @Component({
-    selector: 'app-catalog',
-    templateUrl: './catalog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RouterLink, ProductComponent, AsyncPipe, CurrencyPipe],
-    standalone: true,
+  selector: 'app-catalog',
+  templateUrl: './catalog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, ProductComponent, AsyncPipe, CurrencyPipe],
+  animations: [catalogAnimations],
+  standalone: true,
 })
 export class CatalogComponent {
-    #alertService = inject(AlertService);
-    protected welcomeMsg = inject(WELCOME_MSG);
-    #store = inject(Store);
-    #actions$ = inject(Actions);
+  #alertService = inject(AlertService);
+  protected welcomeMsg = inject(WELCOME_MSG);
+  #store = inject(Store);
+  #actions$ = inject(Actions);
 
-    protected basketTotal$ = this.#store.select(selectBasket.total);
+  protected basketTotal$ = this.#store.select(selectBasket.total);
 
-    protected products$ = this.#store.select(selectCatalog.products);
+  protected products$ = this.#store.select(selectCatalog.products);
 
-    protected isStockEmpty$ = this.#store.select(selectCatalog.isStockEmpty);
+  protected isStockEmpty$ = this.#store.select(selectCatalog.isStockEmpty);
 
-    constructor() {
-        this.#actions$
-            .pipe(ofType(basketActions.addItemFailure), takeUntilDestroyed())
-            .subscribe(() =>
-                this.#alertService.addDanger(
-                    "😱 Désolé, impossible d'ajouter au panier."
-                )
-            );
-    }
+  constructor() {
+    this.#actions$
+      .pipe(ofType(basketActions.addItemFailure), takeUntilDestroyed())
+      .subscribe(() =>
+        this.#alertService.addDanger(
+          "😱 Désolé, impossible d'ajouter au panier.",
+        ),
+      );
+  }
 
-    protected isAvailable(product: Product) {
-        return product.stock > 0;
-    }
+  protected isAvailable(product: Product) {
+    return product.stock > 0;
+  }
 
-    protected addToBasket(product: Product): void {
-        this.#store.dispatch(basketActions.addItem({ productId: product.id }));
-    }
+  protected addToBasket(product: Product): void {
+    this.#store.dispatch(basketActions.addItem({ productId: product.id }));
+  }
 }
