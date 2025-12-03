@@ -6,16 +6,16 @@ import { BasketService } from './basket.service';
 import { catchError, EMPTY, Observable } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { BasketFormComponent } from './basket-form/basket-form.component';
 
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
-  imports: [AsyncPipe, CurrencyPipe],
+  imports: [AsyncPipe, CurrencyPipe, BasketFormComponent],
 })
 export class BasketComponent implements OnDestroy {
   #basketService = inject(BasketService);
   #alertService = inject(AlertService);
-  #router = inject(Router);
 
   protected customer: Customer = { name: '', address: '', creditCard: '' };
 
@@ -46,22 +46,5 @@ export class BasketComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.serviceSubscribe.unsubscribe();
-  }
-
-  protected checkout(event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
-
-    this.#basketService.checkout(this.customer).subscribe({
-      next: ({ orderNumber }) => {
-        this.#alertService.addSuccess(
-          `🚀 Merci pour votre commande (réf. ${orderNumber}).`,
-        );
-        this.#router.navigate(['']);
-      },
-      error: () => {
-        this.#alertService.addDanger("😱 Désolé, une erreur s'est produite.");
-      },
-    });
   }
 }

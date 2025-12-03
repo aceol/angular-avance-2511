@@ -4,33 +4,29 @@ import { Product } from '../../catalog/product/product.types';
 import { ApiService } from './api.service';
 
 export const MockApiService: Partial<ApiService> = {
-  getProducts: jasmine
-    .createSpy('getProducts')
-    .and.returnValue(
-      of([
-        {
-          id: 'id',
-          title: 'title',
-          description: 'description',
-          photo: 'photo',
-          price: 10,
-          stock: 2,
-        },
-      ] as Product[]),
-    ),
-
-  getProduct: jasmine
-    .createSpy('getProduct')
-    .and.returnValue(
-      of({
+  getProducts: jasmine.createSpy('getProducts').and.returnValue(
+    of([
+      {
         id: 'id',
         title: 'title',
         description: 'description',
         photo: 'photo',
         price: 10,
         stock: 2,
-      } as Product),
-    ),
+      },
+    ] as Product[]),
+  ),
+
+  getProduct: jasmine.createSpy('getProduct').and.returnValue(
+    of({
+      id: 'id',
+      title: 'title',
+      description: 'description',
+      photo: 'photo',
+      price: 10,
+      stock: 2,
+    } as Product),
+  ),
 
   getBasket: jasmine
     .createSpy('getBasket')
